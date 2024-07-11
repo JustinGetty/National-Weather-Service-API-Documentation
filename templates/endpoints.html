@@ -28,7 +28,7 @@
         <div class="container">
 
             <div>
-                <p>https://api.weather.gov/openapi.json/</p>
+                <p>https://api.weather.gov/</p>
     
             </div>
 
@@ -49,39 +49,42 @@
             </select>
         </div>
 
-        <form method="POST" action="/submit">
+        <form id="endpointForm" method="POST" action="/submit">
             <input type="hidden" id="selected_top_level_path" name="selected_top_level_path">
             <input type="hidden" id="selected_sub_path" name="selected_sub_path">
             <input type="submit" value="Test Endpoint">
         </form>
+    </div>
 
-        </div>
-
-        <script>
-            $(document).ready(function() {
-                $('#top_level_paths').change(function() {
-                    var selectedPath = $(this).val();
-                    $.ajax({
-                        url: "{{ url_for('get_subpaths') }}",
-                        type: 'POST',
-                        data: { selected_path: selectedPath },
-                        success: function(response) {
-                            var subPaths = response.subpaths;
-                            var subPathsDropdown = $('#sub_paths');
-                            subPathsDropdown.empty();
-                            subPathsDropdown.append('<option value="">Select a subpath</option>');
-                            subPaths.forEach(function(subPath) {
-                                subPathsDropdown.append('<option value="' + subPath + '">' + subPath + '</option>');
-                            });
-                        }
-                    });
+    <script>
+        $(document).ready(function() {
+            $('#top_level_paths').change(function() {
+                var selectedPath = $(this).val();
+                $.ajax({
+                    url: "{{ url_for('get_subpaths') }}",
+                    type: 'POST',
+                    data: { selected_path: selectedPath },
+                    success: function(response) {
+                        var subPaths = response.subpaths;
+                        var subPathsDropdown = $('#sub_paths');
+                        subPathsDropdown.empty();
+                        subPathsDropdown.append('<option value="">Select a subpath</option>');
+                        subPaths.forEach(function(subPath) {
+                            subPathsDropdown.append('<option value="' + subPath + '">' + subPath + '</option>');
+                        });
+                    }
                 });
             });
-        </script>
 
-       <!-- <p>The output of that is: {{ message }}</p>-->
+            $('#endpointForm').submit(function() {
+                $('#selected_top_level_path').val($('#top_level_paths').val());
+                $('#selected_sub_path').val($('#sub_paths').val());
+            });
+        });
+    </script>
+
+    <pre class="json_display">{{ json_output | safe }}</pre>
         
-        <pre>{{ json_output }}</pre>        
     </main>
     <footer>
         <p>&copy; 2024 My Website</p>

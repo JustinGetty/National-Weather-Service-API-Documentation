@@ -1,4 +1,5 @@
 import requests
+import json
 
 def testOutput():
     response = requests.get("https://api.weather.gov/openapi.json")
@@ -22,6 +23,11 @@ def description():
                 description = details.get("description", "No description available")
                 print(f"Path: {path}")
                 print(f"Description: {description}\n")
-
 if __name__ == "__main__":
-    description()
+    endpoint = "https://api.weather.gov/aviation/sigmets/HNL"#"https://api.weather.gov/points/39.7456,-97.0892"
+    parsed = (requests.get(endpoint)).json()
+    #parsed = json.loads(response)
+    for path, function in parsed.items():
+        print(path, function)
+    #print(json.dumps(parsed, indent = 4)) 
+

@@ -1,5 +1,5 @@
 import requests
-
+import json
 
 def ignore():
     response = requests.get("https://api.weather.gov/openapi.json")
@@ -40,8 +40,11 @@ def getPaths(endpoint=""):
 
     return list(weather_data["paths"].keys())
 
-
-
+def getEndpointResponse(endpoint):
+    parsed = (requests.get(endpoint)).json()
+    #parsed = json.loads(response)
+    #print(json.dumps(parsed, indent = 4))
+    return json.dumps(parsed, indent = 4)
 
 if __name__ == "__main__":
     #getJson()
