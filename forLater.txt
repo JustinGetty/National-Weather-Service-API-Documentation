@@ -1,0 +1,16 @@
+<section>
+            <form method="POST" action="/submit">
+                <label for="path_input">Enter the path: </label>
+                <input type="text" id="path_input" name="path">
+                <input type="submit" value="Click Me">
+            </form>
+        </section>
+
+        <p>Path input is: {{ message }}</p>
+        {% if path_is_default %}
+            <p>The path input is set to its default value.</p>
+        {% else %}
+            <p>The path input is not set to its default value.</p>
+        {% endif %}
+        <p>Message from external function:</p>
+        <pre>{{ json_output }}</pre>
